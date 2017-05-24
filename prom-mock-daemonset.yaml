@@ -1,0 +1,25 @@
+# A mock daemonset to serve as a scrape target for Prometheus
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prom-mock-ds
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: prom-mock-ds
+  template:
+    metadata:
+      name: prom-mock-ds
+      labels:
+        app: prom-mock-ds
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9091"
+    spec:
+      containers:
+      - name: prom-mock
+        image: chriskirkland/prom-mock:latest
+        ports:
+        - name: web
+          containerPort: 9091
