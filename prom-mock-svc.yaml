@@ -1,0 +1,39 @@
+# A mock service to serve as a scrape target for Prometheus
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "1234"
+  labels:
+    name: prom-mock
+  name: prom-mock
+spec:
+  selector:
+    app: prom-mock
+  ports:
+    - name: web
+      protocol: TCP
+      port: 1234
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prom-mock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prom-mock
+  template:
+    metadata:
+      name: prom-mock
+      labels:
+        app: prom-mock
+    spec:
+      containers:
+      - name: prom-mock
+        image: chriskirkland/prom-mock:latest
+        ports:
+        - name: web
+          containerPort: 9091
