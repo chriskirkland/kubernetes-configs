@@ -2,24 +2,24 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: prom-mock-ds
+  name: prom-random-deploy
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: prom-mock-ds
+      app: prom-random-deploy
   template:
     metadata:
-      name: prom-mock-ds
+      name: prom-random-deploy
       labels:
-        app: prom-mock-ds
+        app: prom-random-deploy
       annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/port: "9091"
+        prometheus.io/port: "8080"
     spec:
       containers:
-      - name: prom-mock
-        image: chriskirkland/prom-mock:latest
+      - name: prom-random
+        image: chriskirkland/prom-random:latest
         ports:
         - name: web
-          containerPort: 9091
+          containerPort: 8080

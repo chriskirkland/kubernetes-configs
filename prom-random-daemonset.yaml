@@ -1,0 +1,24 @@
+# A mock daemonset to serve as a scrape target for Prometheus
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: prom-random-ds
+spec:
+  selector:
+    matchLabels:
+      app: prom-random-ds
+  template:
+    metadata:
+      name: prom-random-ds
+      labels:
+        app: prom-random-ds
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+      - name: prom-random
+        image: chriskirkland/prom-random:latest
+        ports:
+        - name: web
+          containerPort: 8080
