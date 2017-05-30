@@ -19,6 +19,11 @@ spec:
       containers:
       - name: prom-random
         image: chriskirkland/prom-random:latest
+        resources:
+          requests:
+            memory: "20Mi"
+          limit:
+            memory: "50Mi"
         ports:
         - name: web
           containerPort: 8080
